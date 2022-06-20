@@ -1,4 +1,5 @@
-﻿using eReconcilition.Core.Utilities.Security.Encryption;
+﻿using eReconcilition.Core.Extensions;
+using eReconcilition.Core.Utilities.Security.Encryption;
 using eReconcilition.Entities.Concreate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

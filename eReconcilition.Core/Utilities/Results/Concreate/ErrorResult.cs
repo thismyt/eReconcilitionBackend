@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eReconcilition.Core.Utilities.Results.Concreate
 {
-    internal class ErrorResult : Result
+    public class ErrorResult : Result
     {
         public ErrorResult() : base(false)
         {

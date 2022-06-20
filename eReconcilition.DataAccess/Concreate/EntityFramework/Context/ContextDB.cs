@@ -12,7 +12,7 @@ namespace eReconcilition.DataAccess.Concreate.EntityFramework.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server = MERTVELI; Database = eReconcilitionDB; Integrated Security = true");
+            optionsBuilder.UseSqlServer(@"Server = DESKTOP-7EN3SVO; Database = eReconcilitionDB; Integrated Security = true");
         }
 
         public DbSet<AccountReconcilitaionDetail> AccountReconcilitaionDetails { get; set; }
