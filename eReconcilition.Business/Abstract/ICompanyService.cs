@@ -12,5 +12,6 @@ namespace eReconcilition.Business.Abstract
     {
         IResult Add (Company company); 
         IDataResult<List<Company>> GetList();
+        IResult CompanyExists(Company company);
     }
 }
