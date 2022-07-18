@@ -12,9 +12,12 @@ namespace eReconcilition.Business.Abstract
 {
     public interface IAuthService
     {
-        IDataResult<User> Register(UserForRegister useForRegister, string password);
+        IDataResult<User> Register(UserForRegister useForRegister, string password, Company company);
+        IDataResult<User> RegisterSecondAccount (UserForRegister useForRegister, string password);
+
         IDataResult<User> Login(UserForLogin userForLogin);
         IResult UserExists(string email);
+        IResult CompanyExists(Company company);
         IDataResult<AccessToken> CreateAccessToken(User user, int companyId);
     }
 }

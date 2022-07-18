@@ -1,4 +1,5 @@
 ﻿using eReconcilition.Business.Abstract;
+using eReconcilition.Entities.Concreate;
 using eReconcilition.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,32 @@ namespace eReconcilition.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register (UserForRegister userForRegister, Company company)
+        public IActionResult Register(UserForRegister userForRegister, Company company)
+        {
+            var userExists = _authService.UserExists(userForRegister.Email);
+            if (!userExists.Success)
+            {
+                return BadRequest(userExists.Message);
+            }
+
+            var compnayExists = _authService.CompanyExists(company);
+            if (!userExists.Success)
+            {
+                return BadRequest(userExists.Message);
+            }
+
+            var registerResult = _authService.Register(userForRegister, userForRegister.Password, company);
+
+            var result = _authService.CreateAccessToken(registerResult.Data, companyId);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(registerResult.Message);
+        }
+
+        [HttpPost("registerSecondAccount")]
+        public IActionResult RegisterSecondAccount (UserForRegister userForRegister, Company company)
         {
             var userExists = _authService.UserExists(userForRegister.Email);
             if (!userExists.Success)

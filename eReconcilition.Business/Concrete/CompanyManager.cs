@@ -41,5 +41,11 @@ namespace eReconcilition.Business.Concreate
         {
             return new SuccessDataResult<List<Company>>(_companyDal.GetList());
         }
+
+        public IResult UserCompanyAdd(int userId, int companyId)
+        {
+            _companyDal.UserCompanyAdd(userId, companyId);
+            return new SuccessResult();
+        }
     }
 }

@@ -10,7 +10,22 @@ using System.Threading.Tasks;
 
 namespace eReconcilition.DataAccess.Concreate.EntityFramework
 {
-    public class EFCompanyDal : EfEntityRepositoryBase<Company,ContextDB>, ICompanyDal
+    public class EFCompanyDal : EfEntityRepositoryBase<Company, ContextDB>, ICompanyDal
     {
+        public void UserCompanyAdd(int userId, int companyId)
+        {
+            using (var context = new ContextDB())
+            {
+                UserCompany userCompany = new UserCompany()
+                {
+                    UserId = userId,
+                    CompanyId = companyId,
+                    AddDate = DateTime.Now,
+                    IsActive = true
+                };
+                context.UserCompanies.Add(userCompany); 
+               
+            }
+        }
     }
 }
