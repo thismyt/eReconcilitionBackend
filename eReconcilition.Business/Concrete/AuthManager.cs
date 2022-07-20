@@ -33,7 +33,7 @@ namespace eReconcilition.Business.Concreate
             return new SuccessDataResult<AccessToken>(accessToken);
         }
 
-        public IDataResult<User> Register(UserForRegister userForRegister, string password, Company company)
+        public IDataResult<UserCompanyDto> Register(UserForRegister userForRegister, string password, Company company)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -58,7 +58,7 @@ namespace eReconcilition.Business.Concreate
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                AddDate = user.AddDate,
+                AddDate = DateTime.Now,
                 CompanyId = company.Id,
                 IsActive = true,
                 MailConfirm = user.MailConfirm,
@@ -68,7 +68,7 @@ namespace eReconcilition.Business.Concreate
                 PasswordSalt = user.PasswordSalt
             };
 
-            return new SuccessDataResult<User>(user, Messages.UserRegistered);
+            return new SuccessDataResult<UserCompanyDto>(userCompanyDto, Messages.UserRegistered);
         }
 
         public IDataResult<User> Login(UserForLogin userForLogin)
@@ -108,7 +108,7 @@ namespace eReconcilition.Business.Concreate
                 MailConfirmValue = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Name = userForRegister.Name
+                Name = useForRegister.Name
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);

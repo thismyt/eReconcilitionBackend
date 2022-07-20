@@ -18,23 +18,23 @@ namespace eReconcilition.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(UserForRegister userForRegister, Company company)
+        public IActionResult Register(UserAndCompanyRegisterDto userAndCompanyRegister)
         {
-            var userExists = _authService.UserExists(userForRegister.Email);
+            var userExists = _authService.UserExists(userAndCompanyRegister.UserForRegister.Email);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
             }
 
-            var compnayExists = _authService.CompanyExists(company);
+            var compnayExists = _authService.CompanyExists(userAndCompanyRegister.Company);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
             }
 
-            var registerResult = _authService.Register(userForRegister, userForRegister.Password, company);
+            var registerResult = _authService.Register(userAndCompanyRegister.UserForRegister, userAndCompanyRegister.UserForRegister.Password, userAndCompanyRegister.Company);
 
-            var result = _authService.CreateAccessToken(registerResult.Data, companyId);
+            var result = _authService.CreateAccessToken(registerResult.Data, registerResult.Data.CompanyId);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -43,7 +43,7 @@ namespace eReconcilition.WebApi.Controllers
         }
 
         [HttpPost("registerSecondAccount")]
-        public IActionResult RegisterSecondAccount (UserForRegister userForRegister, Company company)
+        public IActionResult RegisterSecondAccount (UserForRegister userForRegister, int companyId)
         {
             var userExists = _authService.UserExists(userForRegister.Email);
             if (!userExists.Success)
@@ -51,38 +51,14 @@ namespace eReconcilition.WebApi.Controllers
                 return BadRequest(userExists.Message);
             }
 
-            var companyExists = _authService.
+            
 
-            var registerResult = _authService.Register(userForRegister, userForRegister.Password);
+            var registerResult = _authService.RegisterSecondAccount(userForRegister, userForRegister.Password);
             var result = _authService.CreateAccessToken(registerResult.Data, companyId);
             if (result.Success)
             {
                 return Ok(result.Data);
             }
-            return BadRequest(registerResult.Message);
-        }
-
-        [HttpPost("registerSecondAcc")]
-        public IActionResult RegisterSecondAcc(UserForRegister userForRegister, int companyId)
-        {
-            var userExists = _authService.UserExists(userForRegister.Email);
-            if (!userExists.Success)
-            {
-                return BadRequest(userExists.Message);
-            }
-
-            var registerResult = _authService.Register(userForRegister, userForRegister.Password);
-            var result = _authService.CreateAccessToken(registerResult.Data, companyId);
-            if (result.Success)
-            {
-                return Ok(result.Data);
-            }
-
-            //if (registerResult.Success)
-            //{
-            //    return Ok(registerResult);
-            //}
-
             return BadRequest(registerResult.Message);
         }
 
